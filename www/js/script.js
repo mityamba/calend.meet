@@ -76,7 +76,8 @@ for (let n = 0; n < month.length; n++) {
             newDay.className += ' weekend';
         }
         let monthNowValue = nowDate.getMonth() + 1;
-        if ((nowDate.getDay() == i) && (monthNowValue == month[n])) {
+        if ((nowDate.getDate() == i) && (monthNowValue == month[n])) {
+            console.log(i);
             newDay.className += ' today';
             newDayGroupEvent.className += ' todayEvent';
         }
@@ -183,7 +184,7 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
 
     eventNew.addEventListener('click', function() {
         let backBlock = document.querySelector('.back');
-        backBlock.style.display = 'flex';
+        backBlock.style.display = 'block';
         openWindow(id);
     });
 }
