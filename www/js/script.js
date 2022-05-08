@@ -114,6 +114,12 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
         eventNew.innerHTML += '<div class="img"><img src="img/logo/' + img + '" /></div>';
     }
     eventNew.innerHTML += '<div class="text margin">' + title + '</div>';
+
+    let eventNewNext = document.createElement('div');
+    eventNewNext.className = 'next';
+    let eventNewNextValue = document.createElement('img');
+    eventNewNextValue.src = 'img/icon/next.svg';
+
     if ((s == 0) || (s == 4)) {
         eventNew.style.opacity = 0.4;
     }
@@ -124,8 +130,8 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
     eventNew.style.background = type[t][1];
     eventNew.style.color = 'white';
 
-    eventNew.addEventListener('mouseover', function() {
-        let titleWidth = title.length * 10 + 30 + 30 + 24;
+    eventNew.addEventListener('mouseenter', function() {
+        let titleWidth = title.length * 10 + 30 + 30 + 30 + 24;
         if (img != '') {
             titleWidth = titleWidth + 40;
         }
@@ -156,7 +162,7 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
         }
     });
 
-    eventNew.addEventListener('mouseout', function() {
+    eventNew.addEventListener('mouseleave', function() {
         eventNew.style.width = widthBox * dur + 'px';
         eventNew.style.background = type[t][1];
         eventNew.style.zIndex = 998;
@@ -182,8 +188,16 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
         }
     });
     blockEvent.append(eventNew);
+    eventNew.append(eventNewNext);
+    eventNewNext.append(eventNewNextValue);
 
-    eventNew.addEventListener('dblclick', function() {
+    eventNew.addEventListener('click', function() {
+        setTimeout(function() {
+            eventNew.scrollIntoView({inline: "center", behavior: "smooth"});
+        }, 400);
+    });
+
+    eventNewNext.addEventListener('click', function() {
         let backBlock = document.querySelector('.back');
         backBlock.style.display = 'block';
         openWindow(id);
@@ -303,18 +317,6 @@ function openWindow(id) {
         newCardDateValue.innerHTML = eventList[i]['date_start'].substring(0, 5) + ' <img src="img/icon/arrow-right.svg"> ' + eventList[i]['date_end'].substring(0, 5);
         newCardDate.append(newCardDateValue);
 
-        if (eventList[i]['tags']) {
-            let newCardTag = document.createElement('div');
-            newCardTag.className = 'card__tag';
-            newCard.append(newCardTag);
-            let tagArr = eventList[i]['tags'].split(',');
-            tagArr.forEach(function(item) {
-                let newCardTagValue = document.createElement('div');
-                newCardTagValue.innerHTML = item;
-                newCardTag.append(newCardTagValue);
-            });
-        }
-
         let newCardAction = document.createElement('div');
         newCardAction.className = 'card__action';
         newCard.append(newCardAction);
@@ -326,6 +328,18 @@ function openWindow(id) {
         newCardDesc.className = 'card__desc';
         newCardDesc.innerHTML = eventList[i]['desc'];
         newCard.append(newCardDesc);
+
+        if (eventList[i]['tags']) {
+            let newCardTag = document.createElement('div');
+            newCardTag.className = 'card__tag';
+            newCard.append(newCardTag);
+            let tagArr = eventList[i]['tags'].split(',');
+            tagArr.forEach(function(item) {
+                let newCardTagValue = document.createElement('div');
+                newCardTagValue.innerHTML = item;
+                newCardTag.append(newCardTagValue);
+            });
+        }
 
         let newCardContact = document.createElement('div');
         newCardContact.className = 'card__contact';
@@ -356,6 +370,17 @@ function openWindow(id) {
         let newCardFormatValue = document.createElement('div');
         newCardFormatValue.innerHTML = format[formatArr];
         newCardFormat.append(newCardFormatValue);
+
+        let newCardPlace = document.createElement('div');
+        newCardPlace.className = 'card__place';
+        newCard.append(newCardPlace);
+        let newCardPlaceFirst = document.createElement('div');
+        newCardPlaceFirst.innerHTML = 'Место:';
+        newCardPlace.append(newCardPlaceFirst);
+        let cardArr = eventList[i]['place'];
+        let newCardPlaceValue = document.createElement('div');
+        newCardPlaceValue.innerHTML = cardArr;
+        newCardPlace.append(newCardPlaceValue);
 
         let newCardParticipant = document.createElement('div');
         newCardParticipant.className = 'card__age';

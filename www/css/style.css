@@ -40,6 +40,14 @@ body {
 
 .filter {
     height: var(--box-height);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    position: sticky;
+    font-size: 14px;
+    color: #666;
 }
 
 .main {
@@ -54,7 +62,7 @@ body {
     position: fixed;
     height: auto;
     left: 0px;
-    background: #C4C4C4;
+    background: #e4e1a8;
     color: rgba(34, 34, 34, 0.6);
     font-size: 14px;
     z-index: 900;
@@ -154,7 +162,10 @@ body {
     color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
     border-right: 0.5px dashed #aaa;
-    border-left: 0.5px dashed #aaa;
+}
+
+.month div {
+    color: rgba(34, 34, 34, 0.6) !important;
 }
 
 .days div {
@@ -162,6 +173,10 @@ body {
     font-weight: 400;
     font-size: 20px;
     border-bottom: 0px solid #e27878;
+}
+
+.day__group:last-child {
+    border-right: 0.5px dashed #aaa;
 }
 
 .days div:nth-child(2n) {
@@ -177,7 +192,9 @@ body {
 }
 
 .month div {
-    width: 100%;
+    position: sticky;
+    left: var(--box-width);
+    width: calc( 100vw - var(--box-width) );
 }
 
 .weekend {
@@ -201,7 +218,6 @@ body {
     justify-content: flex-start;
     align-items: center;
     transition: 0.25s;
-    cursor: pointer;
     min-width: var(--box-width);
     white-space: nowrap;
     overflow: hidden;
@@ -276,6 +292,28 @@ body {
     opacity: 1;
 }
 
+.event .next {
+    height: 100%;
+    min-width: calc(var(--box-width) / 2);
+    box-sizing: border-box;
+    padding: 9px 6px;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.event .next:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.event .next img {
+    height: 100%;
+    opacity: 0.6;
+}
+
 .back {
     position: fixed;
     top: 0px;
@@ -292,7 +330,7 @@ body {
 .back__inner {
     margin: auto;
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -302,7 +340,7 @@ body {
 }
 
 .back__close {
-    position: absolute;
+    position: fixed;
     top: 12px;
     right: 12px;
     z-index: 1001;
@@ -446,17 +484,26 @@ body {
 }
 
 .card__tag div {
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.75);
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 4px;
-    margin-right: 12px;
+    margin-right: 6px;
     margin-bottom: 4px;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 14px;
+    transition: 0.25s;
+    cursor: pointer;
+    color: #222;
+}
+
+.card__tag div:hover {
+    background: #e27878;
+    color: white;
 }
 
 .card__contact,
 .card__format,
+.card__place,
 .card__age,
 .card__doc {
     display: flex;
@@ -466,6 +513,7 @@ body {
 
 .card__contact div:first-child,
 .card__format div:first-child,
+.card__place div:first-child,
 .card__doc div:first-child,
 .card__age div:first-child {
     width: 140px;
@@ -484,7 +532,7 @@ body {
 .card__doc div:nth-child(2) a {
     text-decoration: none;
     padding: 2px 8px;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 4px;
     transition: 0.25s;
 }
@@ -496,6 +544,7 @@ body {
 
 .card__contact div:nth-child(2),
 .card__format div:nth-child(2),
+.card__place div:nth-child(2),
 .card__doc div:nth-child(2),
 .card__age div:nth-child(2) {
     line-height: 24px;
@@ -507,7 +556,7 @@ body {
 }
 
 .card__format {
-    margin: 12px 0 0 0;
+    margin: 12px 0;
 }
 
 .card__org {
