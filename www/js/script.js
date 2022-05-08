@@ -267,25 +267,29 @@ function openWindow(id) {
         newCard.className = 'card';
         backInner.append(newCard);
 
-        let newCardStart = document.createElement('div');
-        newCardStart.className = 'card__start';
-        newCard.append(newCardStart);
+        // let newCardStart = document.createElement('div');
+        // newCardStart.className = 'card__start';
+        // newCard.append(newCardStart);
+        //
+        // let newCardLevelName = document.createElement('div');
+        // newCardLevelName.className = 'card__level_name';
+        // newCardLevelName.innerHTML = eventList[i]['level_title'];
+        // newCardStart.append(newCardLevelName);
 
-        let newCardLevelName = document.createElement('div');
-        newCardLevelName.className = 'card__level_name';
-        newCardLevelName.innerHTML = eventList[i]['level_title'];
-        newCardStart.append(newCardLevelName);
-
-        let newCardStatus = document.createElement('div');
-        newCardStatus.className = 'card__status';
-        let newStatus = eventList[i]['status'];
-        newCardStatus.style.background = status[newStatus][1];
-        newCardStatus.innerHTML = status[newStatus][0];
-        newCardStart.append(newCardStatus);
+        // let newCardStatus = document.createElement('div');
+        // newCardStatus.className = 'card__status';
+        // let newStatus = eventList[i]['status'];
+        // newCardStatus.style.background = status[newStatus][1];
+        // newCardStatus.innerHTML = status[newStatus][0];
+        // newCardStart.append(newCardStatus);
 
         let newCardTitle = document.createElement('div');
         newCardTitle.className = 'card__title';
         newCard.append(newCardTitle);
+
+        let newCardTitleValue = document.createElement('div');
+        newCardTitleValue.innerHTML = eventList[i]['title'];
+        newCardTitle.append(newCardTitleValue);
 
         if (eventList[i]['logo'] != '') {
             let newCardLogo = document.createElement('img');
@@ -293,18 +297,22 @@ function openWindow(id) {
             newCardTitle.append(newCardLogo);
         }
 
-        let newCardTitleValue = document.createElement('div');
-        newCardTitleValue.innerHTML = eventList[i]['title'];
-        newCardTitle.append(newCardTitleValue);
-
         let newCardTitleFull = document.createElement('div');
         newCardTitleFull.className = 'card__title_full';
-        newCardTitleFull.innerHTML = eventList[i]['title_full'];
+        newCardTitleFull.innerHTML = eventList[i]['level_title'] + ' "' + eventList[i]['title_full'] + '"';
         newCard.append(newCardTitleFull);
 
         let newCardDate = document.createElement('div');
         newCardDate.className = 'card__date';
         newCard.append(newCardDate);
+
+        let newCardStatus = document.createElement('div');
+        newCardStatus.className = 'card__status';
+        let newStatus = eventList[i]['status'];
+        newCardStatus.style.background = status[newStatus][1];
+        newCardStatus.innerHTML = status[newStatus][0];
+        newCardDate.append(newCardStatus);
+
         let newCardDateValue = document.createElement('div');
         newCardDateValue.innerHTML = eventList[i]['date_start'] + ' <img src="img/icon/arrow-right.svg"> ' + eventList[i]['date_end'];
         newCardDate.append(newCardDateValue);

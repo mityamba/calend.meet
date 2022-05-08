@@ -316,10 +316,12 @@ body {
 
 .card__status {
     color: white;
-    padding: 4px 8px;
-    margin-top: -4px;
+    padding: 4px 10px;
+    margin-right: 8px;
     border-radius: 4px;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .card__level_name {
@@ -339,13 +341,19 @@ body {
     flex-direction: row;
     align-items: center;
     margin: 8px 0;
+    margin-top: 0;
+    align-items: flex-start;
+}
+
+.card__title div {
+    flex-grow: 1;
 }
 
 .card__title img {
     max-height: 64px;
-    max-width: 64px;
+    max-width: 144px;
     border-radius: 4px;
-    margin-right: 12px;
+    margin-left: 12px;
     object-fit: contain;
     box-sizing: border-box;
 }
@@ -360,21 +368,22 @@ body {
 
 .card__date {
     display: flex;
+    flex-direction: row;
 }
 
-.card__date div {
+.card__date div:nth-child(2) {
     background: #CDE3F0;
     border-radius: 4px;
-    padding: 6px 12px;
-    font-weight: 900;
+    padding: 4px 10px;
+    font-weight: 700;
     font-size: 18px;
     display: flex;
     flex-direction: row;
 }
 
 .card__date div img {
-    width: 20px;
-    margin: 0 12px;
+    width: 16px;
+    margin: 0 10px;
 }
 
 .card__tag {
@@ -441,7 +450,7 @@ body {
 }
 
 .card__desc {
-    margin: 16px 0 24px 0;
+    margin: 24px 0 24px 0;
     font-size: 18px;
 }
 
@@ -467,7 +476,7 @@ body {
     vertical-align: middle;
 }
 
-@media (min-width: 360px) {
+@media (max-width: 560px) {
     .back {
         position: fixed;
         top: 0px;
