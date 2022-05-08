@@ -182,7 +182,7 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
     });
     blockEvent.append(eventNew);
 
-    eventNew.addEventListener('click', function() {
+    eventNew.addEventListener('dblclick', function() {
         let backBlock = document.querySelector('.back');
         backBlock.style.display = 'block';
         openWindow(id);

@@ -529,6 +529,12 @@ body {
 }
 
 @media (max-width: 560px) {
+
+    :root {
+        --box-width: 40px;
+        --box-height: 40px;
+    }
+
     .back {
         position: fixed;
         top: 0px;
