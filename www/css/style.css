@@ -528,7 +528,7 @@ body {
     vertical-align: middle;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 560px) {
     .back {
         position: fixed;
         top: 0px;
@@ -538,7 +538,7 @@ body {
         background: rgba(196, 196, 196, 0.5);
         backdrop-filter: blur(4px);
         z-index: 1000;
-        padding: 8px;
+        padding: 0px;
         box-sizing: border-box;
     }
 
@@ -549,20 +549,21 @@ body {
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        padding: 12px 0;
+        padding: 0;
         overflow: auto;
     }
 
     .back__close {
         top: 24px;
-        right: 16px;
+        right: 24px;
     }
 
     .card {
         width: 100%;
         max-width: 560px;
+        min-height: 100vh;
         height: auto;
-        border-radius: 8px;
+        border-radius: 0px;
         background: #F0F0F0;
         box-sizing: border-box;
         padding: 24px;
