@@ -1,5 +1,3 @@
-const widthBox = 60;
-const heightBox = 40;
 
 // блок с календарем
 const monthName = ['', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
@@ -90,6 +88,9 @@ for (let n = 0; n < month.length; n++) {
     }
 }
 // конец блока с календарем
+
+let widthBox = document.querySelector('.day').clientWidth;
+let heightBox = document.querySelector('.day').clientHeight;
 
 function createObj(id, m, d, dur, l, title, t, img, h, s) {
     // id       - идентификатор
