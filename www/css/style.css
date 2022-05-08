@@ -153,7 +153,8 @@ body {
     background: #FFF4D8;
     color: rgba(0, 0, 0, 0.6);
     font-size: 14px;
-    border-right: 1px dashed #aaa;
+    border-right: 0.5px dashed #aaa;
+    border-left: 0.5px dashed #aaa;
 }
 
 .days div {
@@ -284,23 +285,44 @@ body {
     background: rgba(196, 196, 196, 0.5);
     backdrop-filter: blur(4px);
     z-index: 1000;
-
+    overflow: auto;
+    box-sizing: border-box;
 }
 
 .back__inner {
     margin: auto;
     width: 100%;
-    height: auto;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     padding: 24px 0;
-    overflow: auto;
+    box-sizing: border-box;
+    /* overflow: auto; */
+}
+
+.back__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1001;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: 0.25s;
+}
+
+.back__close:hover {
+    opacity: 1;
+}
+
+.back__close img {
+    width: 16px;
 }
 
 .card {
     width: 100%;
     max-width: 560px;
+    min-width: 360px;
     height: auto;
     border-radius: 8px;
     background: #F0F0F0;
@@ -319,9 +341,13 @@ body {
     padding: 4px 10px;
     margin-right: 8px;
     border-radius: 4px;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 20px;
+    border: 2px solid white;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: auto;
+    display: flex;
+    align-items: center;
 }
 
 .card__level_name {
@@ -379,11 +405,37 @@ body {
     font-size: 18px;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .card__date div img {
     width: 16px;
     margin: 0 10px;
+}
+
+.card__action {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card__action div {
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: white;
+    font-weight: 700;
+    margin: 24px 0 0 0;
+    border: 3px solid #57ac47;
+    color: #57ac47;
+    width: auto;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.card__action div:hover {
+    border: 3px solid #DB2ECA;
+    color: #DB2ECA;
 }
 
 .card__tag {
@@ -416,7 +468,7 @@ body {
 .card__format div:first-child,
 .card__doc div:first-child,
 .card__age div:first-child {
-    width: 120px;
+    width: 140px;
     opacity: 0.6;
     line-height: 24px;
 }
@@ -476,7 +528,7 @@ body {
     vertical-align: middle;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
     .back {
         position: fixed;
         top: 0px;
@@ -501,6 +553,11 @@ body {
         overflow: auto;
     }
 
+    .back__close {
+        top: 24px;
+        right: 16px;
+    }
+
     .card {
         width: 100%;
         max-width: 560px;
@@ -510,5 +567,36 @@ body {
         box-sizing: border-box;
         padding: 24px;
         z-index: 1001;
+    }
+
+    .card__title {
+        flex-direction: column-reverse;
+    }
+
+    .card__title div {
+        width: 100%;
+        text-align: center;
+    }
+
+    .card__title_full {
+        text-align: center;
+    }
+
+    .card__title img {
+        margin: 0;
+        margin-bottom: 8px;
+        width: 100%;
+        align-self: center;
+    }
+
+    .card__date {
+        justify-content: center;
+    }
+
+    .card__contact div:first-child,
+    .card__format div:first-child,
+    .card__doc div:first-child,
+    .card__age div:first-child {
+        width: 140px;
     }
 }

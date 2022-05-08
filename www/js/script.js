@@ -189,7 +189,7 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
     });
 }
 
-document.querySelector('.back').addEventListener('click', function() {
+document.querySelector('.back__close').addEventListener('click', function() {
     let backBlock = document.querySelector('.back');
     backBlock.style.display = 'none';
     let cardBlock = document.querySelector('.card');
@@ -267,22 +267,6 @@ function openWindow(id) {
         newCard.className = 'card';
         backInner.append(newCard);
 
-        // let newCardStart = document.createElement('div');
-        // newCardStart.className = 'card__start';
-        // newCard.append(newCardStart);
-        //
-        // let newCardLevelName = document.createElement('div');
-        // newCardLevelName.className = 'card__level_name';
-        // newCardLevelName.innerHTML = eventList[i]['level_title'];
-        // newCardStart.append(newCardLevelName);
-
-        // let newCardStatus = document.createElement('div');
-        // newCardStatus.className = 'card__status';
-        // let newStatus = eventList[i]['status'];
-        // newCardStatus.style.background = status[newStatus][1];
-        // newCardStatus.innerHTML = status[newStatus][0];
-        // newCardStart.append(newCardStatus);
-
         let newCardTitle = document.createElement('div');
         newCardTitle.className = 'card__title';
         newCard.append(newCardTitle);
@@ -309,12 +293,13 @@ function openWindow(id) {
         let newCardStatus = document.createElement('div');
         newCardStatus.className = 'card__status';
         let newStatus = eventList[i]['status'];
-        newCardStatus.style.background = status[newStatus][1];
+        newCardStatus.style.borderColor = status[newStatus][1];
+        newCardStatus.style.color = status[newStatus][1];
         newCardStatus.innerHTML = status[newStatus][0];
         newCardDate.append(newCardStatus);
 
         let newCardDateValue = document.createElement('div');
-        newCardDateValue.innerHTML = eventList[i]['date_start'] + ' <img src="img/icon/arrow-right.svg"> ' + eventList[i]['date_end'];
+        newCardDateValue.innerHTML = eventList[i]['date_start'].substring(0, 5) + ' <img src="img/icon/arrow-right.svg"> ' + eventList[i]['date_end'].substring(0, 5);
         newCardDate.append(newCardDateValue);
 
         if (eventList[i]['tags']) {
@@ -328,6 +313,13 @@ function openWindow(id) {
                 newCardTag.append(newCardTagValue);
             });
         }
+
+        let newCardAction = document.createElement('div');
+        newCardAction.className = 'card__action';
+        newCard.append(newCardAction);
+        let newCardActionValue = document.createElement('div');
+        newCardActionValue.innerHTML = 'БУДУ УЧАСТВОВАТЬ';
+        newCardAction.append(newCardActionValue);
 
         let newCardDesc = document.createElement('div');
         newCardDesc.className = 'card__desc';
