@@ -36,11 +36,12 @@ body {
     height: 100%;
     overflow: hidden;
     overflow-x: scroll;
+    transition: 0.25s;
 }
 
 .filter {
     height: var(--box-height);
-    width: 100vw;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,6 +49,8 @@ body {
     position: sticky;
     font-size: 14px;
     color: #666;
+    z-index: 1000;
+    background: rgb(204, 203, 102);
 }
 
 .main {
@@ -59,8 +62,9 @@ body {
 }
 
 .main__block_left {
-    position: fixed;
+    position: absolute;
     height: auto;
+    top: var(--box-height);
     left: 0px;
     background: #e4e1a8;
     color: rgba(34, 34, 34, 0.6);
@@ -222,6 +226,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     z-index: 998;
+    cursor: pointer;
 }
 
 .event .level {
@@ -315,16 +320,19 @@ body {
 }
 
 .back {
+    display: block;
     position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
+    top: 0;
+    right: -100%;
+    width: 0;
     height: 100vh;
     background: rgba(196, 196, 196, 0.5);
     backdrop-filter: blur(4px);
     z-index: 1000;
     overflow: auto;
     box-sizing: border-box;
+    transition: 0.25s;
+    border-left: 2px solid #999;
 }
 
 .back__inner {
@@ -334,7 +342,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 24px 0;
+    padding: 0;
     box-sizing: border-box;
     /* overflow: auto; */
 }
@@ -362,7 +370,7 @@ body {
     max-width: 560px;
     min-width: 360px;
     height: auto;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     background: #F0F0F0;
     box-sizing: border-box;
     padding: 48px;
@@ -585,16 +593,11 @@ body {
     }
 
     .back {
-        position: fixed;
-        top: 0px;
         left: 0px;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(196, 196, 196, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 1000;
-        padding: 0px;
-        box-sizing: border-box;
+        top: 100%;
+        right: auto;
+        border-top: 2px solid #999;
+        border-left: 0px;
     }
 
     .back__inner {

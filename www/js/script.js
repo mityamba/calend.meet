@@ -1,4 +1,3 @@
-
 // блок с календарем
 const monthName = ['', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 
@@ -78,6 +77,12 @@ for (let n = 0; n < month.length; n++) {
             console.log(i);
             newDay.className += ' today';
             newDayGroupEvent.className += ' todayEvent';
+            setTimeout(function() {
+                newDay.scrollIntoView({
+                    inline: "center",
+                    behavior: "smooth"
+                });
+            }, 200);
         }
         newDay.innerHTML = i;
         z++;
@@ -89,8 +94,86 @@ for (let n = 0; n < month.length; n++) {
 }
 // конец блока с календарем
 
+let clickStatus = 0;
+
 let widthBox = document.querySelector('.day').clientWidth;
 let heightBox = document.querySelector('.day').clientHeight;
+
+function eventEnter(id, elem) {
+    if (clickStatus != id) {
+        let title = elem.title;
+        let titleWidth = title.length * 10 + 30 + 30 + 24;
+        let elemImg = elem.innerHTML;
+        if (elemImg.includes('img') == true) {
+            titleWidth = titleWidth + 40;
+        }
+        if (elem.clientWidth < titleWidth) {
+            elem.style.width = titleWidth + 'px';
+        }
+        elem.style.background = '#e27878';
+        elem.style.zIndex = 999;
+        let classes = elem.className;
+        let classesArr = classes.split(' ');
+        let objMon = classesArr[1].split('_');
+        let objDay = classesArr[2].split('_');
+        let objDur = classesArr[3].split('_');
+        let zDay = document.querySelector('.day.m_' + objMon[1] + '.d_' + objDay[1]);
+        let zClasses = zDay.className;
+        let zClassesArr = zClasses.split(' ');
+        let zStart = zClassesArr[3].split('_');
+        let zEnd = Number(zStart[1]) + Number(objDur[1]) - 1;
+        let objTD = document.querySelectorAll('.day');
+        for (let g = Number(zStart[1]); g <= zEnd; g++) {
+            objTD.forEach(function(item) {
+                let objTDofClasses = document.querySelectorAll('.day.z_' + g);
+                let groupTDofClasses = document.querySelectorAll('.day__group_event.z_' + g);
+                for (let i = 0; i < objTDofClasses.length; i++) {
+                    objTDofClasses[i].style.borderWidth = '8px';
+                    groupTDofClasses[i].style.backgroundColor = 'rgba(226, 120, 120, 0.25)';
+                }
+            });
+        }
+    }
+}
+
+function eventLeave(id, elem) {
+    if (clickStatus != id) {
+        let classes = elem.className;
+        let classesArr = classes.split(' ');
+        let objMon = classesArr[1].split('_');
+        let objDay = classesArr[2].split('_');
+        let objDur = classesArr[3].split('_');
+        let objTyp = classesArr[4].split('_');
+        elem.style.width = widthBox * objDur[1] + 'px';
+        elem.style.background = type[objTyp[1]][1];
+        elem.style.zIndex = 998;
+        let zDay = document.querySelector('.day.m_' + objMon[1] + '.d_' + objDay[1]);
+        let zClasses = zDay.className;
+        let zClassesArr = zClasses.split(' ');
+        let zStart = zClassesArr[3].split('_');
+        let zEnd = Number(zStart[1]) + Number(objDur[1]) - 1;
+        let objTD = document.querySelectorAll('.day');
+        for (let g = Number(zStart[1]); g <= zEnd; g++) {
+            objTD.forEach(function(item) {
+                let objTDofClasses = document.querySelectorAll('.day.z_' + g);
+                let groupTDofClasses = document.querySelectorAll('.day__group_event.z_' + g);
+                for (let i = 0; i < objTDofClasses.length; i++) {
+                    objTDofClasses[i].style.borderWidth = '0px';
+                    groupTDofClasses[i].style.backgroundColor = '';
+                }
+            });
+        }
+    }
+}
+
+function notActive(id) {
+    let objEvents = document.querySelectorAll('.event');
+    objEvents.forEach(function(itemEvent) {
+        if (itemEvent.id != id) {
+            eventLeave(itemEvent.id, itemEvent);
+        }
+    });
+}
 
 function createObj(id, m, d, dur, l, title, t, img, h, s) {
     // id       - идентификатор
@@ -107,108 +190,123 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
     let blockEvent = document.querySelector('.event__block');
 
     let eventNew = document.createElement('div');
-    eventNew.className = 'event m_' + m + ' d_' + d + ' dur_' + dur;
-    eventNew.innerHTML = '<div class="level">' + level[l][0] + '</div>';
-    eventNew.innerHTML += '<div class="status" title="' + status[s][0] + '"><div style="background:' + status[s][1] + ';"></div></div>';
-    if (img != '') {
-        eventNew.innerHTML += '<div class="img"><img src="img/logo/' + img + '" /></div>';
-    }
-    eventNew.innerHTML += '<div class="text margin">' + title + '</div>';
+    eventNew.id = id;
+    eventNew.title = title;
+    eventNew.className = 'event m_' + m + ' d_' + d + ' dur_' + dur + ' t_' + t;
 
-    let eventNewNext = document.createElement('div');
-    eventNewNext.className = 'next';
-    let eventNewNextValue = document.createElement('img');
-    eventNewNextValue.src = 'img/icon/next.svg';
+    let eventNewLevel = document.createElement('div');
+    eventNewLevel.className = 'level';
+    eventNewLevel.innerHTML = level[l][0];
+
+    let eventNewStatus = document.createElement('div');
+    eventNewStatus.className = 'status';
+    eventNewStatus.title = status[s][0];
+
+    let eventNewStatusCircle = document.createElement('div');
+    eventNewStatusCircle.style.background = status[s][1];
+
+    eventNew.append(eventNewLevel);
+    eventNewStatus.append(eventNewStatusCircle);
+    eventNew.append(eventNewStatus);
+
+    if (img != '') {
+        let eventNewImg = document.createElement('div');
+        eventNewImg.className = 'img';
+        let eventNewImgSrc = document.createElement('img');
+        eventNewImgSrc.src = 'img/logo/' + img;
+        eventNewImg.append(eventNewImgSrc);
+        eventNew.append(eventNewImg);
+    }
+
+    let eventNewTitle = document.createElement('div');
+    eventNewTitle.className = 'text margin';
+    eventNewTitle.innerHTML = title;
+    eventNew.append(eventNewTitle);
 
     if ((s == 0) || (s == 4)) {
         eventNew.style.opacity = 0.4;
     }
+
     eventNew.style.top = heightBox * (h + 0.5 + (h * 0.5)) + 'px';
     eventNew.style.left = widthBox * (d - 1) + 'px';
-    eventNew.style.height = heightBox + 'px';
     eventNew.style.width = widthBox * dur + 'px';
+    eventNew.style.height = heightBox + 'px';
     eventNew.style.background = type[t][1];
     eventNew.style.color = 'white';
 
     eventNew.addEventListener('mouseenter', function() {
-        let titleWidth = title.length * 10 + 30 + 30 + 30 + 24;
-        if (img != '') {
-            titleWidth = titleWidth + 40;
-        }
-        if (eventNew.clientWidth < titleWidth) {
-            eventNew.style.width = titleWidth + 'px';
-        }
-        eventNew.style.background = '#e27878';
-        eventNew.style.zIndex = 999;
-        let classes = eventNew.className;
-        let classesArr = classes.split(' ');
-        let objDur = classesArr[3].split('_');
-        let objDay = classesArr[2].split('_');
-        let zDay = document.querySelector('.day.m_' + m + '.d_' + d);
-        let zClasses = zDay.className;
-        let zClassesArr = zClasses.split(' ');
-        let zStart = zClassesArr[3].split('_');
-        let zEnd = Number(zStart[1]) + Number(objDur[1]) - 1;
-        let objTD = document.querySelectorAll('.day');
-        for (let g = Number(zStart[1]); g <= zEnd; g++) {
-            objTD.forEach(function(item) {
-                let objTDofClasses = document.querySelectorAll('.day.z_' + g);
-                let groupTDofClasses = document.querySelectorAll('.day__group_event.z_' + g);
-                for (let i = 0; i < objTDofClasses.length; i++) {
-                    objTDofClasses[i].style.borderWidth = '8px';
-                    groupTDofClasses[i].style.backgroundColor = 'rgba(226, 120, 120, 0.25)';
-                }
-            });
-        }
+        eventEnter(id, eventNew);
     });
+
+    let blockBack = document.querySelector('.back');
 
     eventNew.addEventListener('mouseleave', function() {
-        eventNew.style.width = widthBox * dur + 'px';
-        eventNew.style.background = type[t][1];
-        eventNew.style.zIndex = 998;
-        let classes = eventNew.className;
-        let classesArr = classes.split(' ');
-        let objDur = classesArr[3].split('_');
-        let objDay = classesArr[2].split('_');
-        let zDay = document.querySelector('.day.m_' + m + '.d_' + d);
-        let zClasses = zDay.className;
-        let zClassesArr = zClasses.split(' ');
-        let zStart = zClassesArr[3].split('_');
-        let zEnd = Number(zStart[1]) + Number(objDur[1]) - 1;
-        let objTD = document.querySelectorAll('.day');
-        for (let g = Number(zStart[1]); g <= zEnd; g++) {
-            objTD.forEach(function(item) {
-                let objTDofClasses = document.querySelectorAll('.day.z_' + g);
-                let groupTDofClasses = document.querySelectorAll('.day__group_event.z_' + g);
-                for (let i = 0; i < objTDofClasses.length; i++) {
-                    objTDofClasses[i].style.borderWidth = '0px';
-                    groupTDofClasses[i].style.backgroundColor = '';
-                }
-            });
-        }
+        eventLeave(id, eventNew);
     });
+
+    blockBack.addEventListener('mouseleave', function() {
+        eventLeave(id, eventNew);
+    });
+
     blockEvent.append(eventNew);
-    eventNew.append(eventNewNext);
-    eventNewNext.append(eventNewNextValue);
 
     eventNew.addEventListener('click', function() {
-        setTimeout(function() {
-            eventNew.scrollIntoView({inline: "center", behavior: "smooth"});
-        }, 400);
-    });
 
-    eventNewNext.addEventListener('click', function() {
-        let backBlock = document.querySelector('.back');
-        backBlock.style.display = 'block';
+        if (clickStatus != 0) {
+            let cardBlock = document.querySelector('.card');
+            cardBlock.remove();
+        }
+
+        clickStatus = id;
+
+        let boxBack = document.querySelector('.back');
+        boxBack.style.width = 'auto';
+
         openWindow(id);
+
+        setTimeout(function() {
+            let boxCard = document.querySelector('.card');
+            let boxBlock = document.querySelector('.box');
+            if (document.body.clientWidth > 560) {
+                boxBack.style.right = '0px';
+                let rightWidth = boxCard.offsetWidth;
+                boxBlock.style.width = document.body.clientWidth - rightWidth + 'px';
+            } else {
+                boxBack.style.top = '60%';
+                boxBack.style.height = '40%';
+                boxCard.addEventListener('touchstart', function() {
+                    boxBack.style.top = '0%';
+                    boxBack.style.height = '100%';
+                });
+            }
+            setTimeout(function() {
+                eventNew.scrollIntoView({
+                    inline: "center",
+                    behavior: "smooth"
+                });
+            }, 200);
+        }, 100);
+
+        notActive(id);
+
     });
 }
 
 document.querySelector('.back__close').addEventListener('click', function() {
-    let backBlock = document.querySelector('.back');
-    backBlock.style.display = 'none';
     let cardBlock = document.querySelector('.card');
+    let boxBlock = document.querySelector('.box');
+    let boxBack = document.querySelector('.back');
+    if (document.body.clientWidth > 560) {
+        boxBlock.style.width = '100vw';
+        boxBack.style.right = '-100%';
+    } else {
+        boxBack.style.top = '100%';
+    }
+    setTimeout(function() {
+        boxBack.style.width = '0';
+    }, 400);
     cardBlock.remove();
+    clickStatus = 0;
 });
 
 let requestURL = './data/list.json';
@@ -329,7 +427,7 @@ function openWindow(id) {
         newCardDesc.innerHTML = eventList[i]['desc'];
         newCard.append(newCardDesc);
 
-        if (eventList[i]['tags']) {
+        if (eventList[i]['tags'] != '') {
             let newCardTag = document.createElement('div');
             newCardTag.className = 'card__tag';
             newCard.append(newCardTag);
