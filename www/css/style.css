@@ -21,7 +21,7 @@
 }
 
 body {
-    width: 100vw;
+    width: 100%;
     max-height: 100%;
     background: #F0F0F0;
 }
@@ -34,6 +34,7 @@ body {
 .box {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
     overflow: hidden;
     overflow-x: scroll;
     transition: 0.25s;
@@ -58,7 +59,8 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     height: 100%;
-    width: 100vw;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .main__block_left {
@@ -459,29 +461,51 @@ body {
     margin: 0 10px;
 }
 
-.card__action {
+.card__action,
+.card__finish {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.card__action div {
+.card__action div,
+.card__finish div {
     font-size: 16px;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     color: white;
     font-weight: 700;
     margin: 24px 0 0 0;
-    border: 3px solid #57ac47;
-    color: #57ac47;
     width: auto;
     transition: 0.25s;
     cursor: pointer;
 }
 
-.card__action div:hover {
-    border: 3px solid #DB2ECA;
-    color: #DB2ECA;
+.card__action a,
+.card__finish a {
+    text-decoration: none;
+}
+
+.card__action div {
+    /* border: 3px solid #57ac47; */
+    /* color: #57ac47; */
+    background: #57ac47;
+    color: white;
+}
+
+.card__finish div {
+    /* border: 3px solid #78BBE2;
+    color: #78BBE2; */
+    background: #78BBE2;
+    color: white;
+}
+
+.card__action div:hover,
+.card__finish div:hover {
+    /* border: 3px solid #e27878;
+    color: #e27878; */
+    background: #e27878;
+    color: white;
 }
 
 .card__tag {
@@ -492,16 +516,29 @@ body {
 }
 
 .card__tag div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     padding: 2px 8px;
     background: rgba(255, 255, 255, 0.6);
     border-radius: 4px;
     margin-right: 6px;
     margin-bottom: 4px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     transition: 0.25s;
     cursor: pointer;
     color: #222;
+    text-transform: uppercase;
+}
+
+.card__tag div div {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    margin-top: 4px;
+    margin-left: -2px;
+    border-radius: 2px;
 }
 
 .card__tag div:hover {
@@ -512,6 +549,7 @@ body {
 .card__contact,
 .card__format,
 .card__place,
+.card__pay,
 .card__age,
 .card__doc {
     display: flex;
@@ -522,6 +560,7 @@ body {
 .card__contact div:first-child,
 .card__format div:first-child,
 .card__place div:first-child,
+.card__pay div:first-child,
 .card__doc div:first-child,
 .card__age div:first-child {
     width: 140px;
@@ -533,13 +572,14 @@ body {
     margin: 12px 0;
 }
 
-.card__doc {
+.card__doc,
+.card__pay {
     margin-bottom: 12px;
 }
 
 .card__doc div:nth-child(2) a {
     text-decoration: none;
-    padding: 2px 8px;
+    padding: 2px 6px;
     background: rgba(255, 255, 255, 0.6);
     border-radius: 4px;
     transition: 0.25s;
@@ -553,6 +593,7 @@ body {
 .card__contact div:nth-child(2),
 .card__format div:nth-child(2),
 .card__place div:nth-child(2),
+.card__pay div:nth-child(2),
 .card__doc div:nth-child(2),
 .card__age div:nth-child(2) {
     line-height: 24px;

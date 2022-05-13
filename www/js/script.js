@@ -99,6 +99,15 @@ let clickStatus = 0;
 let widthBox = document.querySelector('.day').clientWidth;
 let heightBox = document.querySelector('.day').clientHeight;
 
+function scrollHorizontally(e) {
+    e = window.event || e;
+    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+    document.querySelector('.box').scrollLeft -= (delta * widthBox); // Multiplied by 10
+    e.preventDefault();
+}
+
+document.querySelector('.box').addEventListener("mousewheel", scrollHorizontally, false);
+
 function eventEnter(id, elem) {
     if (clickStatus != id) {
         let title = elem.title;
@@ -166,7 +175,7 @@ function eventLeave(id, elem) {
     }
 }
 
-function notActive(id) {
+function notActiveEvents(id) {
     let objEvents = document.querySelectorAll('.event');
     objEvents.forEach(function(itemEvent) {
         if (itemEvent.id != id) {
@@ -287,7 +296,7 @@ function createObj(id, m, d, dur, l, title, t, img, h, s) {
             }, 200);
         }, 100);
 
-        notActive(id);
+        notActiveEvents(id);
 
     });
 }
@@ -357,7 +366,7 @@ request.onload = function() {
     }
 }
 
-//
+// создание окна с описанием события, подробное описание
 
 function openWindow(id) {
     let requestURL = './data/list.json';
@@ -416,21 +425,39 @@ function openWindow(id) {
         newCardDate.append(newCardDateValue);
 
         let newCardAction = document.createElement('div');
-        newCardAction.className = 'card__action';
-        newCard.append(newCardAction);
+        let newCardActionLink = document.createElement('a');
         let newCardActionValue = document.createElement('div');
-        newCardActionValue.innerHTML = 'БУДУ УЧАСТВОВАТЬ';
-        newCardAction.append(newCardActionValue);
+        newCard.append(newCardAction);
+        if (eventList[i]['finish_link'] != '') {
+            newCardAction.className = 'card__finish';
+            newCardActionValue.innerHTML = 'УЗНАТЬ ИТОГИ';
+            newCardActionLink.href = eventList[i]['finish_link'];
+        } else {
+            newCardAction.className = 'card__action';
+            newCardActionValue.innerHTML = 'БУДУ УЧАСТВОВАТЬ';
+            newCardActionLink.href = eventList[i]['reg_link'];
+        }
+        newCardActionLink.append(newCardActionValue);
+        newCardAction.append(newCardActionLink);
 
         let newCardDesc = document.createElement('div');
         newCardDesc.className = 'card__desc';
         newCardDesc.innerHTML = eventList[i]['desc'];
         newCard.append(newCardDesc);
 
+        let newCardTag = document.createElement('div');
+        newCardTag.className = 'card__tag';
+        newCard.append(newCardTag);
+
+        let newCardTagValueType = document.createElement('div');
+        let newCardTagValueTypeRect = document.createElement('div');
+        newCardTagValueTypeRect.style.background = type[eventList[i]['type']][1];
+        newCardTagValueType.append(newCardTagValueTypeRect);
+        newCardTagValueType.innerHTML += type[eventList[i]['type']][0];
+
+        newCardTag.append(newCardTagValueType);
+
         if (eventList[i]['tags'] != '') {
-            let newCardTag = document.createElement('div');
-            newCardTag.className = 'card__tag';
-            newCard.append(newCardTag);
             let tagArr = eventList[i]['tags'].split(',');
             tagArr.forEach(function(item) {
                 let newCardTagValue = document.createElement('div');
@@ -438,6 +465,22 @@ function openWindow(id) {
                 newCardTag.append(newCardTagValue);
             });
         }
+
+        let newCardPay = document.createElement('div');
+        newCardPay.className = 'card__pay';
+        newCard.append(newCardPay);
+        let newCardPayFirst = document.createElement('div');
+        newCardPayFirst.innerHTML = 'Оргвзнос:';
+        newCardPay.append(newCardPayFirst);
+        let cardArrPay = eventList[i]['pay'];
+        if (cardArrPay == 0) {
+            cardArrPay = 'не нужен.';
+        } else {
+            cardArrPay = cardArrPay + ' руб.';
+        }
+        let newCardPayValue = document.createElement('div');
+        newCardPayValue.innerHTML = cardArrPay;
+        newCardPay.append(newCardPayValue);
 
         let newCardContact = document.createElement('div');
         newCardContact.className = 'card__contact';
@@ -475,9 +518,9 @@ function openWindow(id) {
         let newCardPlaceFirst = document.createElement('div');
         newCardPlaceFirst.innerHTML = 'Место:';
         newCardPlace.append(newCardPlaceFirst);
-        let cardArr = eventList[i]['place'];
+        let cardArrPlace = eventList[i]['place'];
         let newCardPlaceValue = document.createElement('div');
-        newCardPlaceValue.innerHTML = cardArr;
+        newCardPlaceValue.innerHTML = cardArrPlace;
         newCardPlace.append(newCardPlaceValue);
 
         let newCardParticipant = document.createElement('div');
